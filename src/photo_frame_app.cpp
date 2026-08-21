@@ -2,6 +2,7 @@
 
 #include <M5Unified.h>
 #include <SD.h>
+#include <esp_heap_caps.h>
 #include <vector>
 
 #include "native_display.h"
@@ -36,6 +37,34 @@ void scanPhotos() {
   dir.close();
 }
 
+bool drawPhotoBuffer(const String& path, const String& lower) {
+  File file = SD.open(path, FILE_READ);
+  if (!file || file.isDirectory()) return false;
+  const size_t size = file.size();
+  if (size == 0 || size > 6 * 1024 * 1024) {
+    file.close();
+    return false;
+  }
+  auto* data = static_cast<uint8_t*>(
+      heap_caps_malloc(size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+  if (!data) {
+    file.close();
+    return false;
+  }
+  const bool complete = file.read(data, size) == size;
+  file.close();
+  bool drawn = false;
+  if (complete && (lower.endsWith(".jpg") || lower.endsWith(".jpeg"))) {
+    drawn = M5.Display.drawJpg(data, size, 0, 0, 600, 400, 0, 0, 1.0f, 1.0f, middle_center);
+  } else if (complete && lower.endsWith(".png")) {
+    drawn = M5.Display.drawPng(data, size, 0, 0, 600, 400, 0, 0, 1.0f, 1.0f, middle_center);
+  } else if (complete) {
+    drawn = M5.Display.drawBmp(data, size, 0, 0, 600, 400, 0, 0, 1.0f, 1.0f, middle_center);
+  }
+  heap_caps_free(data);
+  return drawn;
+}
+
 void renderPhoto() {
   M5.Display.startWrite();
   M5.Display.fillScreen(WHITE);
@@ -49,12 +78,11 @@ void renderPhoto() {
     const String& path = photos[currentPhoto % photos.size()];
     String lower = path;
     lower.toLowerCase();
-    if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) {
-      M5.Display.drawJpgFile(SD, path.c_str(), 0, 0, 600, 400, 0, 0, 1.0f, 1.0f, middle_center);
-    } else if (lower.endsWith(".png")) {
-      M5.Display.drawPngFile(SD, path.c_str(), 0, 0, 600, 400, 0, 0, 1.0f, 1.0f, middle_center);
-    } else {
-      M5.Display.drawBmpFile(SD, path.c_str(), 0, 0, 600, 400, 0, 0, 1.0f, 1.0f, middle_center);
+    if (!drawPhotoBuffer(path, lower)) {
+      nativeHeader("PHOTO FRAME", GREEN);
+      M5.Display.setFont(&fonts::FreeSansBold18pt7b);
+      M5.Display.setTextDatum(middle_center);
+      M5.Display.drawString("Image cannot be decoded", 300, 210);
     }
   }
   M5.Display.endWrite();

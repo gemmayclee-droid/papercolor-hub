@@ -1,0 +1,13 @@
+{
+  "wifi": {
+    "ssid": "YOUR_WIFI_SSID",
+    "password": "YOUR_WIFI_PASSWORD"
+  },
+  "refresh_seconds": 300,
+  "symbols": [
+    "2330",
+    "tse_0050",
+    "otc_6488"
+  ]
+}
+

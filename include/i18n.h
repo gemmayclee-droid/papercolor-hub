@@ -9,6 +9,7 @@ enum class TextId : uint8_t {
   Reader,
   Calendar,
   PhotoFrame,
+  Sudoku,
   Updated,
   Change,
   NoData,
@@ -16,8 +17,8 @@ enum class TextId : uint8_t {
   Today,
   Connecting,
   ConfigError,
+  Solved,
 };
 
 Locale detectLocale();
 const char* tr(TextId id, Locale locale);
-

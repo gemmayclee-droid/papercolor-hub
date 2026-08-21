@@ -32,6 +32,7 @@ void setup() {
     case AppMode::Reader: readerSetup(); break;
     case AppMode::Calendar: calendarSetup(); break;
     case AppMode::PhotoFrame: photoFrameSetup(); break;
+    case AppMode::Sudoku: sudokuSetup(); break;
   }
 }
 
@@ -41,5 +42,6 @@ void loop() {
     case AppMode::Reader: readerLoop(); break;
     case AppMode::Calendar: calendarLoop(); break;
     case AppMode::PhotoFrame: photoFrameLoop(); break;
+    case AppMode::Sudoku: sudokuLoop(); break;
   }
 }

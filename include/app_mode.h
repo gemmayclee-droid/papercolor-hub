@@ -7,7 +7,7 @@ enum class AppMode : uint8_t {
   Reader = 1,
   Calendar = 2,
   PhotoFrame = 3,
+  Sudoku = 4,
 };
 
-constexpr uint8_t kAppModeCount = 4;
-
+constexpr uint8_t kAppModeCount = 5;

@@ -8,4 +8,5 @@ void calendarSetup();
 void calendarLoop();
 void photoFrameSetup();
 void photoFrameLoop();
-
+void sudokuSetup();
+void sudokuLoop();

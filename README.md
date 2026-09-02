@@ -42,16 +42,14 @@ NVS；正常開機會直接進入上次模式。
 自動形成 fallback family。閱讀器引擎源自 CrossPoint 技術路線的 FreeInk，
 支援 EPUB ZIP、CSS、CJK 斷行、雙向文字、圖片、書籤和頁面快取。
 
-## 建置
+## 安裝與自行建置
 
-需要 PlatformIO。第一次 clone 必須取得子模組：
+不需要在電腦安裝 PlatformIO。前往 [Releases](../../releases) 下載最新版本的三個
+`.bin` 檔，再依照[安裝說明](docs/INSTALL.zh-TW.md)燒錄。
 
-```bash
-git clone --recurse-submodules <repository-url>
-cd papercolor-hub
-pio run -e m5papercolor
-pio run -e m5papercolor -t upload
-```
+若要自行建置，將 repository fork 到自己的 GitHub 帳號後，從 GitHub 的 **Actions**
+頁面執行 **Build PaperColor firmware**；完成後可從 Artifact 下載產物。推送
+`v*` 格式的 tag 時，GitHub Actions 會自動建立 Release 並附上 `.bin` 檔。
 
 目前針對 PaperColor C151（ESP32-S3R8、16 MB Flash、8 MB OPI PSRAM、600×400
 Spectra 6）建置。第一次完整彩色刷新通常需要約 15 秒；閱讀模式使用 FreeInk

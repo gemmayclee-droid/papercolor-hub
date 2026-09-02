@@ -19,5 +19,10 @@ Hold button C while powering on to select the next mode. Copy the
 - `/fonts/*.ttf`: reading fonts, optionally with Bold/Italic siblings.
 - `/photos/`: JPG, PNG, or BMP images.
 
-Build with PlatformIO using `pio run -e m5papercolor`. Clone with
-`git clone --recurse-submodules` so the FreeInk SDK is available.
+PlatformIO is not required on your computer. Download the three latest `.bin`
+files from [Releases](../../releases), then follow the
+[installation guide](INSTALL.en.md).
+
+To build your own firmware, fork this repository and run **Build PaperColor
+firmware** from GitHub **Actions**. Download its Artifact when complete. Pushing
+a `v*` tag automatically creates a Release with the `.bin` files attached.

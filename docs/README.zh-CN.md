@@ -15,5 +15,9 @@ EPUB/TXT 阅读器、桌面万年历、彩色电子纸相框和数独游戏。
 - `/fonts/*.ttf`：阅读字体，可加入 Bold、Italic 和 BoldItalic 字体。
 - `/photos/`：JPG、PNG 或 BMP 照片。
 
-使用 PlatformIO 执行 `pio run -e m5papercolor` 编译。首次克隆仓库时请使用
-`git clone --recurse-submodules`。
+无需在电脑上安装 PlatformIO。请从 [Releases](../../releases) 下载最新版本的三个
+`.bin` 文件，并按照[安装说明](INSTALL.zh-CN.md)烧录。
+
+如需自行编译，请 fork 本仓库后，在 GitHub **Actions** 中运行
+**Build PaperColor firmware**。完成后可从 Artifact 下载；推送 `v*` 格式的 tag
+时，GitHub Actions 会自动创建带 `.bin` 文件的 Release。

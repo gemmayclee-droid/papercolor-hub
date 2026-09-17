@@ -1,0 +1,12 @@
+{
+  "wifi": {
+    "ssid": "YOUR_WIFI_SSID",
+    "password": "YOUR_WIFI_PASSWORD"
+  },
+  "dropbox": {
+    "app_key": "YOUR_DROPBOX_APP_KEY",
+    "refresh_token": "YOUR_DROPBOX_OFFLINE_REFRESH_TOKEN",
+    "folder": "/Apps/PaperColor Gallery"
+  },
+  "refresh_seconds": 43200
+}

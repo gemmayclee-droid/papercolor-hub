@@ -1,6 +1,6 @@
 # PaperColor Hub
 
-[繁體中文](README.md) · [简体中文](docs/README.zh-CN.md) · [English](docs/README.en.md)
+[繁體中文](README.md) · [简体中文](docs/README.zh-CN.md) · [English](docs/README.en.md) · [Dropbox 藝廊設定](docs/DROPBOX.zh-TW.md) · [專案歷史](docs/HISTORY.zh-TW.md)
 
 PaperColor Hub 是 M5Stack PaperColor（C151）的五合一開源韌體：
 
@@ -9,6 +9,8 @@ PaperColor Hub 是 M5Stack PaperColor（C151）的五合一開源韌體：
 3. 桌面萬年曆
 4. 彩色電子紙相框
 5. 數獨遊戲
+
+相框模式也可設定為 Dropbox 循環藝廊：遞迴讀取指定資料夾和子資料夾、忽略影片，只顯示照片；預設每 12 小時更新一次。詳見 [Dropbox 藝廊設定](docs/DROPBOX.zh-TW.md)。
 
 ## 操作
 

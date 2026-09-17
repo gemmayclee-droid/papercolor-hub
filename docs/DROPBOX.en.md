@@ -23,11 +23,14 @@ Copy the example [dropbox.json](../examples/sd-card/config/dropbox.json) to `/co
     "refresh_token": "YOUR_DROPBOX_OFFLINE_REFRESH_TOKEN",
     "folder": "/Apps/PaperColor Gallery"
   },
+  "timezone": "CST-8",
   "refresh_seconds": 43200
 }
 ```
 
 `folder` can point to any Dropbox folder you authorized. App-folder access is recommended; place photos under `/Apps/PaperColor Gallery/`. Subfolders may be organized freely and are processed recursively.
+
+`timezone` uses POSIX timezone notation; `CST-8` is suitable for Taiwan and China Standard Time. Calendar mode uses this setting to synchronize NTP time and show today's date, weekday, and time.
 
 ## Dropbox authorization
 

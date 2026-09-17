@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "config.h"
+#include "i18n.h"
 #include "native_display.h"
 
 namespace {
@@ -21,6 +22,7 @@ size_t currentPhoto = 0;
 uint32_t nextPhoto = 0;
 constexpr uint32_t kSlideMs = 5UL * 60UL * 1000UL;
 constexpr uint32_t kWifiTimeoutMs = 20UL * 1000UL;
+const Locale kLocale = detectLocale();
 
 bool isPhoto(const String& name) {
   String lower = name;
@@ -249,20 +251,20 @@ void renderPhoto() {
   M5.Display.startWrite();
   M5.Display.fillScreen(WHITE);
   if (photos.empty()) {
-    nativeHeader("PHOTO FRAME", GREEN);
+    nativeHeader(tr(TextId::DropboxGallery, kLocale), GREEN);
     M5.Display.setFont(&fonts::FreeSansBold18pt7b);
     M5.Display.setTextDatum(middle_center);
     M5.Display.setTextColor(BLACK, WHITE);
-    M5.Display.drawString("Put JPG / PNG / BMP in /photos", 300, 210);
+    M5.Display.drawString(tr(TextId::LocalPhotosHint, kLocale), 300, 210);
   } else {
     const String& path = photos[currentPhoto % photos.size()];
     String lower = path;
     lower.toLowerCase();
     if (!drawPhotoBuffer(path, lower)) {
-      nativeHeader("PHOTO FRAME", GREEN);
+      nativeHeader(tr(TextId::DropboxGallery, kLocale), GREEN);
       M5.Display.setFont(&fonts::FreeSansBold18pt7b);
       M5.Display.setTextDatum(middle_center);
-      M5.Display.drawString("Image cannot be decoded", 300, 210);
+      M5.Display.drawString(tr(TextId::ImageDecodeError, kLocale), 300, 210);
     }
   }
   M5.Display.endWrite();
@@ -275,10 +277,10 @@ void renderDropboxPhoto(const String& path) {
   String lower = path;
   lower.toLowerCase();
   if (!drawPhotoBuffer(path, lower)) {
-    nativeHeader("DROPBOX GALLERY", BLUE);
+    nativeHeader(tr(TextId::DropboxGallery, kLocale), BLUE);
     M5.Display.setFont(&fonts::FreeSansBold18pt7b);
     M5.Display.setTextDatum(middle_center);
-    M5.Display.drawString("Image cannot be decoded", 300, 210);
+    M5.Display.drawString(tr(TextId::ImageDecodeError, kLocale), 300, 210);
   }
   M5.Display.endWrite();
 }

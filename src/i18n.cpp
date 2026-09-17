@@ -4,19 +4,12 @@
 
 namespace {
 constexpr const char* kTexts[][3] = {
-    {"台股自選", "台股自选", "TW Stocks"},
-    {"閱讀器", "阅读器", "Reader"},
     {"萬年曆", "万年历", "Calendar"},
-    {"彩色相框", "彩色相框", "Photo Frame"},
-    {"數獨", "数独", "Sudoku"},
-    {"更新", "更新", "Updated"},
-    {"漲跌", "涨跌", "Change"},
-    {"暫無資料", "暂无数据", "No data"},
+    {"Dropbox 藝廊", "Dropbox 画廊", "Dropbox Gallery"},
     {"找不到照片", "找不到照片", "No photos"},
-    {"今天", "今天", "Today"},
-    {"正在連線", "正在连接", "Connecting"},
-    {"設定錯誤", "设置错误", "Configuration error"},
-    {"完成！", "完成！", "Solved!"},
+    {"無法解碼圖片", "无法解码图片", "Image cannot be decoded"},
+    {"將 JPG、PNG 或 BMP 放入 /photos", "将 JPG、PNG 或 BMP 放入 /photos", "Put JPG / PNG / BMP in /photos"},
+    {"A 上月　B 本月　C 下月", "A 上月　B 本月　C 下月", "A previous month   B current month   C next month"},
 };
 }
 

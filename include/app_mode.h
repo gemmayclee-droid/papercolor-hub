@@ -3,11 +3,8 @@
 #include <cstdint>
 
 enum class AppMode : uint8_t {
-  Stocks = 0,
-  Reader = 1,
-  Calendar = 2,
-  PhotoFrame = 3,
-  Sudoku = 4,
+  DropboxGallery = 0,
+  Calendar = 1,
 };
 
-constexpr uint8_t kAppModeCount = 5;
+constexpr uint8_t kAppModeCount = 2;

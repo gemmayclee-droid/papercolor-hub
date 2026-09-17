@@ -1,12 +1,17 @@
 #include "apps.h"
 
 #include <M5Unified.h>
+#include <WiFi.h>
 #include <ctime>
 
+#include "config.h"
+#include "i18n.h"
 #include "native_display.h"
 
 namespace {
 int monthOffset = 0;
+uint32_t nextClockRefresh = 0;
+Locale locale = Locale::ZhTW;
 
 bool leap(int year) { return year % 400 == 0 || (year % 4 == 0 && year % 100 != 0); }
 
@@ -33,22 +38,50 @@ void shiftedMonth(int& year, int& month, int& today) {
   today = monthOffset == 0 ? local.tm_mday : -1;
 }
 
+void syncClock() {
+  DropboxGalleryConfig config;
+  if (!beginSharedSd() || !loadDropboxGalleryConfig(config)) return;
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(config.wifiSsid.c_str(), config.wifiPassword.c_str());
+  const uint32_t wifiStarted = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - wifiStarted < 20000) delay(200);
+  if (WiFi.status() == WL_CONNECTED) {
+    configTzTime(config.timezone.c_str(), "pool.ntp.org", "time.nist.gov");
+    const uint32_t timeStarted = millis();
+    while (time(nullptr) < 1700000000 && millis() - timeStarted < 10000) delay(200);
+  }
+  WiFi.disconnect(true);
+  WiFi.mode(WIFI_OFF);
+}
+
+const char* weekdayName(int value) {
+  static constexpr const char* kWeekdays[][3] = {
+      {"週日", "周日", "Sun"}, {"週一", "周一", "Mon"}, {"週二", "周二", "Tue"},
+      {"週三", "周三", "Wed"}, {"週四", "周四", "Thu"}, {"週五", "周五", "Fri"},
+      {"週六", "周六", "Sat"},
+  };
+  return kWeekdays[value][static_cast<uint8_t>(locale)];
+}
+
 void renderCalendar() {
   int year, month, today;
   shiftedMonth(year, month, today);
   M5.Display.startWrite();
   M5.Display.fillScreen(WHITE);
-  char title[32];
-  snprintf(title, sizeof(title), "%04d / %02d", year, month);
+  time_t now = time(nullptr);
+  tm local{};
+  localtime_r(&now, &local);
+  char title[64];
+  snprintf(title, sizeof(title), "%04d-%02d-%02d %s  %02d:%02d", local.tm_year + 1900,
+           local.tm_mon + 1, local.tm_mday, weekdayName(local.tm_wday), local.tm_hour, local.tm_min);
   nativeHeader(title, BLUE);
-  static constexpr const char* week[] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
   const int cellW = 82;
   const int x0 = 13;
   M5.Display.setFont(&fonts::FreeSansBold9pt7b);
   M5.Display.setTextDatum(middle_center);
   for (int col = 0; col < 7; ++col) {
     M5.Display.setTextColor(col == 0 ? RED : (col == 6 ? BLUE : BLACK), WHITE);
-    M5.Display.drawString(week[col], x0 + col * cellW + cellW / 2, 78);
+    M5.Display.drawString(weekdayName(col), x0 + col * cellW + cellW / 2, 78);
   }
   const int first = weekday(year, month, 1);
   const int count = daysInMonth(year, month);
@@ -63,13 +96,16 @@ void renderCalendar() {
     M5.Display.setTextColor(col == 0 ? RED : (col == 6 ? BLUE : BLACK), day == today ? YELLOW : WHITE);
     M5.Display.drawNumber(day, cx, cy);
   }
-  nativeFooter("A previous month   B today   C next month");
+  nativeFooter(tr(TextId::CalendarFooter, locale));
   M5.Display.endWrite();
+  nextClockRefresh = millis() + 60UL * 1000UL;
 }
 }
 
 void calendarSetup() {
   beginNativeDisplay();
+  locale = detectLocale();
+  syncClock();
   renderCalendar();
 }
 
@@ -78,6 +114,6 @@ void calendarLoop() {
   if (M5.BtnA.wasPressed()) { --monthOffset; renderCalendar(); }
   if (M5.BtnB.wasPressed()) { monthOffset = 0; renderCalendar(); }
   if (M5.BtnC.wasPressed()) { ++monthOffset; renderCalendar(); }
+  if (static_cast<int32_t>(millis() - nextClockRefresh) >= 0) renderCalendar();
   delay(20);
 }
-

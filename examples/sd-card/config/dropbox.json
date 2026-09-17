@@ -8,5 +8,6 @@
     "refresh_token": "YOUR_DROPBOX_OFFLINE_REFRESH_TOKEN",
     "folder": "/Apps/PaperColor Gallery"
   },
+  "timezone": "CST-8",
   "refresh_seconds": 43200
 }

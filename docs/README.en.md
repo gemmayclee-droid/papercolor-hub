@@ -2,22 +2,24 @@
 
 [繁體中文](../README.md) · [简体中文](README.zh-CN.md) · [English](README.en.md)
 
-PaperColor Hub is five-in-one open-source firmware for the M5Stack PaperColor
-(C151): a Taiwan stock watchlist, EPUB/TXT reader, perpetual desktop calendar,
-colour e-paper photo frame, and Sudoku game.
+PaperColor Hub is dual-mode open-source firmware for the M5Stack PaperColor
+(C151): a Dropbox rotating gallery and a perpetual calendar with today's date,
+weekday, and time.
 
-In Sudoku, A/C selects the previous/next editable cell and B cycles its digit.
-Hold B to clear a cell or hold A to reset the puzzle. Conflicts are shown in
-red and progress is saved automatically.
+Hold button C while powering on to switch between the two modes. The selection
+is saved in NVS. The gallery recursively reads its configured Dropbox folder,
+skips videos, displays the next photo every 12 hours, and then deep-sleeps. See
+the [Dropbox gallery setup](DROPBOX.en.md).
 
-Hold button C while powering on to select the next mode. Copy the
-`examples/sd-card` layout to the microSD card:
+Calendar controls: A selects the previous month, B returns to the current
+month, and C selects the next month. It uses the Wi-Fi and `timezone` setting
+in `/config/dropbox.json` for NTP time synchronization.
 
-- `/config/stocks.json`: Wi-Fi, refresh interval, and symbols. Prefix OTC
-  symbols with `otc_`.
-- `/Books/*.epub`: DRM-free EPUB or TXT books.
-- `/fonts/*.ttf`: reading fonts, optionally with Bold/Italic siblings.
-- `/photos/`: JPG, PNG, or BMP images.
+Copy this required configuration file to the microSD card:
+
+- `/config/dropbox.json`: Dropbox credentials, Wi-Fi, timezone, gallery path,
+  and refresh interval.
+- `/photos/`: optional JPG, PNG, or BMP fallback photos when Dropbox is unavailable.
 
 PlatformIO is not required on your computer. Download the three latest `.bin`
 files from [Releases](../../releases), then follow the

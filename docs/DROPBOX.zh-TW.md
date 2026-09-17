@@ -23,11 +23,14 @@
     "refresh_token": "YOUR_DROPBOX_OFFLINE_REFRESH_TOKEN",
     "folder": "/Apps/PaperColor Gallery"
   },
+  "timezone": "CST-8",
   "refresh_seconds": 43200
 }
 ```
 
 `folder` 可指向任何你已授權的 Dropbox 資料夾；建議使用 App folder 權限，將照片放在 `/Apps/PaperColor Gallery/` 下。子資料夾可自由分類，裝置會遞迴處理。
+
+`timezone` 使用 POSIX 時區格式；台灣、中國標準時間可使用 `CST-8`。萬年曆模式會使用此設定透過 NTP 校正並顯示今天日期、星期與時間。
 
 ## Dropbox 授權
 

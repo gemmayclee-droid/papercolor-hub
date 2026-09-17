@@ -2,47 +2,30 @@
 
 [繁體中文](README.md) · [简体中文](docs/README.zh-CN.md) · [English](docs/README.en.md) · [Dropbox 藝廊設定](docs/DROPBOX.zh-TW.md) · [專案歷史](docs/HISTORY.zh-TW.md)
 
-PaperColor Hub 是 M5Stack PaperColor（C151）的五合一開源韌體：
+PaperColor Hub 是 M5Stack PaperColor（C151）的雙模式開源韌體：
 
-1. 台灣股票自選行情（TWSE MIS）
-2. EPUB／TXT 閱讀器與外部 TTF／OTF 字型
-3. 桌面萬年曆
-4. 彩色電子紙相框
-5. 數獨遊戲
+1. Dropbox 循環藝廊：遞迴讀取指定資料夾與子資料夾、略過影片，只顯示照片；預設每 12 小時更新一次。
+2. 萬年曆：顯示今日日期、星期與時間，並可瀏覽前後月份。
 
-相框模式也可設定為 Dropbox 循環藝廊：遞迴讀取指定資料夾和子資料夾、忽略影片，只顯示照片；預設每 12 小時更新一次。詳見 [Dropbox 藝廊設定](docs/DROPBOX.zh-TW.md)。
+詳見 [Dropbox 藝廊設定](docs/DROPBOX.zh-TW.md)。
 
 ## 操作
 
-關機後按住 C 鍵（GPIO 1）再開機，每次會切換至下一個模式。選擇會保存在
-NVS；正常開機會直接進入上次模式。
+關機後按住 C 鍵（GPIO 1）再開機，可在 Dropbox 藝廊與萬年曆之間切換。選擇會保存在 NVS；正常開機會直接進入上次模式。
 
-- 股票：B 立即更新。
-- 閱讀器：A／B 翻頁，C 確認或開啟目錄；沿用 FreeInk Reader 的按鍵操作。
-- 萬年曆：A 上個月、B 回今天、C 下個月。
-- 相框：A 上一張、B 重新掃描、C 下一張；每五分鐘自動輪播。
-- 數獨：A／C 移動至上一／下一個可填格，B 依序填入 1–9；長按 B 清除，
-  長按 A 重設題目。紅字表示與同行、同列或同宮衝突，進度會自動保存。
+- Dropbox 藝廊：同步後即進入深度睡眠；首次或同步失敗時，顯示 microSD 的 `/photos` 備援照片。
+- 萬年曆：A 上個月、B 回本月、C 下個月；標題會顯示目前日期、星期與時間，且每分鐘更新。
 
 ## microSD 目錄
 
 先將 `examples/sd-card` 內的內容複製到 microSD 根目錄：
 
 ```text
-/config/stocks.json
-/Books/*.epub
-/fonts/*.ttf
-/photos/*.{jpg,jpeg,png,bmp}
-/BookCache/                 # 閱讀器自動建立
+/config/dropbox.json
+/photos/*.{jpg,jpeg,png,bmp} # Dropbox 失敗時的備援照片
 ```
 
-台股代號預設使用上市市場，例如 `2330` 等同 `tse_2330`。上櫃股票請明確寫成
-`otc_6488`。行情來自臺灣證券交易所 MIS 公開端點；請遵守其使用條款，這不是
-交易系統，也不保證資料即時性或完整性。
-
-只支援無 DRM 的 EPUB。字型可直接放入 `/fonts`；同名字型的粗體、斜體版本會
-自動形成 fallback family。閱讀器引擎源自 CrossPoint 技術路線的 FreeInk，
-支援 EPUB ZIP、CSS、CJK 斷行、雙向文字、圖片、書籤和頁面快取。
+萬年曆會使用 `/config/dropbox.json` 中的 Wi-Fi 與 `timezone` 設定，在開啟模式時透過 NTP 校正時間；預設時區為 `CST-8`（台灣／中國標準時間）。
 
 ## 安裝與自行建置
 
@@ -54,8 +37,7 @@ NVS；正常開機會直接進入上次模式。
 `v*` 格式的 tag 時，GitHub Actions 會自動建立 Release 並附上 `.bin` 檔。
 
 目前針對 PaperColor C151（ESP32-S3R8、16 MB Flash、8 MB OPI PSRAM、600×400
-Spectra 6）建置。第一次完整彩色刷新通常需要約 15 秒；閱讀模式使用 FreeInk
-的快速單色刷新路徑，並需要定期完整刷新以保持面板電荷平衡。
+Spectra 6）建置。完整彩色刷新通常需要約 15 秒，因此 Dropbox 藝廊採低頻同步與深度睡眠設計。
 
 ## 授權
 

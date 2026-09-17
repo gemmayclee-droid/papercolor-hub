@@ -7,7 +7,7 @@
 namespace {
 constexpr gpio_num_t kModeButton = GPIO_NUM_1;
 Preferences prefs;
-AppMode mode = AppMode::Stocks;
+AppMode mode = AppMode::DropboxGallery;
 
 void chooseMode() {
   pinMode(kModeButton, INPUT_PULLUP);
@@ -28,20 +28,14 @@ void setup() {
   Serial.begin(115200);
   chooseMode();
   switch (mode) {
-    case AppMode::Stocks: stockSetup(); break;
-    case AppMode::Reader: readerSetup(); break;
     case AppMode::Calendar: calendarSetup(); break;
-    case AppMode::PhotoFrame: photoFrameSetup(); break;
-    case AppMode::Sudoku: sudokuSetup(); break;
+    case AppMode::DropboxGallery: photoFrameSetup(); break;
   }
 }
 
 void loop() {
   switch (mode) {
-    case AppMode::Stocks: stockLoop(); break;
-    case AppMode::Reader: readerLoop(); break;
     case AppMode::Calendar: calendarLoop(); break;
-    case AppMode::PhotoFrame: photoFrameLoop(); break;
-    case AppMode::Sudoku: sudokuLoop(); break;
+    case AppMode::DropboxGallery: photoFrameLoop(); break;
   }
 }

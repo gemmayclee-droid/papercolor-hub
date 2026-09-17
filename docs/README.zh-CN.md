@@ -2,18 +2,16 @@
 
 [繁體中文](../README.md) · [简体中文](README.zh-CN.md) · [English](README.en.md)
 
-这是用于 M5Stack PaperColor（C151）的五合一开源固件：台湾股票自选行情、
-EPUB/TXT 阅读器、桌面万年历、彩色电子纸相框和数独游戏。
+这是用于 M5Stack PaperColor（C151）的双模式开源固件：Dropbox 循环画廊，以及显示今天日期、星期和时间的桌面万年历。
 
-数独模式使用 A／C 移动，B 填写数字；长按 B 清除，长按 A 重置题目。
-冲突数字以红色显示，游戏进度自动保存。
+关机后按住 C 键再开机可在两个模式之间切换，选择会保存到 NVS。画廊会递归读取已配置的 Dropbox 文件夹、跳过视频、每 12 小时显示下一张照片后进入深度睡眠。请参阅 [Dropbox 画廊设置](DROPBOX.zh-CN.md)。
 
-关机后按住 C 键再开机可切换模式。将 `examples/sd-card` 的目录复制到 microSD：
+万年历操作：A 上个月、B 回到本月、C 下个月。它使用 `/config/dropbox.json` 内的 Wi-Fi 和 `timezone` 设置，通过 NTP 校正时间。
 
-- `/config/stocks.json`：Wi-Fi、刷新间隔和股票代码；上柜股票使用 `otc_` 前缀。
-- `/Books/*.epub`：无 DRM 的 EPUB/TXT 图书。
-- `/fonts/*.ttf`：阅读字体，可加入 Bold、Italic 和 BoldItalic 字体。
-- `/photos/`：JPG、PNG 或 BMP 照片。
+请将以下必要配置复制到 microSD：
+
+- `/config/dropbox.json`：Dropbox 凭证、Wi-Fi、时区、画廊路径和刷新间隔。
+- `/photos/`：Dropbox 无法使用时的可选 JPG、PNG 或 BMP 备用照片。
 
 无需在电脑上安装 PlatformIO。请从 [Releases](../../releases) 下载最新版本的三个
 `.bin` 文件，并按照[安装说明](INSTALL.zh-CN.md)烧录。

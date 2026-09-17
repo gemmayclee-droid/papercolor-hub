@@ -5,19 +5,12 @@
 enum class Locale : uint8_t { ZhTW, ZhCN, En };
 
 enum class TextId : uint8_t {
-  Stocks,
-  Reader,
   Calendar,
-  PhotoFrame,
-  Sudoku,
-  Updated,
-  Change,
-  NoData,
+  DropboxGallery,
   NoPhotos,
-  Today,
-  Connecting,
-  ConfigError,
-  Solved,
+  ImageDecodeError,
+  LocalPhotosHint,
+  CalendarFooter,
 };
 
 Locale detectLocale();
